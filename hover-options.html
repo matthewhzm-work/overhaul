@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hover Treatment Options</title>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&family=Inter:wght@300;400;500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --paper:#F5F4EF;--ink:#0A0A0A;--red:#E8200C;--mid:#777;
+  --display:'Lexend',sans-serif;--body:'Inter',sans-serif;--mono:'IBM Plex Mono',monospace;
+}
+body{background:var(--paper);color:var(--ink);font-family:var(--body);padding:60px 40px;-webkit-font-smoothing:antialiased}
+h1{font-family:var(--display);font-size:13px;font-weight:500;letter-spacing:0.15em;text-transform:uppercase;color:var(--mid);margin-bottom:8px}
+.page-title{font-family:var(--display);font-size:28px;font-weight:600;letter-spacing:-0.02em;margin-bottom:48px}
+.options{display:grid;grid-template-columns:repeat(2,1fr);gap:48px 40px}
+.option{display:flex;flex-direction:column;gap:16px}
+.option-label{font-family:var(--mono);font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:var(--mid)}
+.option-label em{color:var(--red);font-style:normal;margin-right:8px}
+.option-name{font-family:var(--display);font-size:17px;font-weight:600;letter-spacing:-0.01em;margin-bottom:2px}
+.option-desc{font-size:13px;color:#555;line-height:1.6;max-width:340px}
+/* Card shell shared */
+.card{
+  width:100%;aspect-ratio:4/3;
+  position:relative;overflow:hidden;border-radius:6px;background:#111;
+  cursor:pointer;
+}
+.card img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 0.6s cubic-bezier(0.22,1,0.36,1)}
+/* Shared text elements */
+.c-brand{font-family:var(--display);font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--red);font-weight:600}
+.c-title{font-family:var(--display);font-size:16px;font-weight:600;line-height:1.25;letter-spacing:-0.01em;color:#fff;margin:6px 0 5px}
+.c-desc{font-size:12px;color:rgba(255,255,255,0.7);line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.c-tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:8px}
+.c-tag{font-family:var(--mono);font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.45);border:1px solid rgba(255,255,255,0.18);padding:2px 6px}
+.c-award{font-family:var(--mono);font-size:8px;letter-spacing:0.06em;text-transform:uppercase;background:rgba(255,255,255,0.15);color:#fff;border:1px solid rgba(255,255,255,0.25);padding:2px 7px;flex-shrink:0}
+.c-top{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:2px}
+
+/* ── OPTION A: Current — gradient slide-up ── */
+.opt-a .overlay{
+  position:absolute;bottom:0;left:0;right:0;
+  padding:60px 18px 18px;
+  background:linear-gradient(to top,rgba(0,0,0,0.88) 0%,rgba(0,0,0,0.6) 55%,transparent 100%);
+  opacity:0;transform:translateY(6px);
+  transition:opacity 0.35s ease,transform 0.38s cubic-bezier(0.22,1,0.36,1);
+}
+.opt-a:hover .overlay{opacity:1;transform:translateY(0)}
+
+/* ── OPTION B: Frosted glass panel ── */
+.opt-b .overlay{
+  position:absolute;bottom:0;left:0;right:0;
+  padding:20px 18px 18px;
+  background:rgba(10,10,10,0.55);
+  backdrop-filter:blur(14px) saturate(1.4);
+  -webkit-backdrop-filter:blur(14px) saturate(1.4);
+  border-top:1px solid rgba(255,255,255,0.1);
+  opacity:0;transform:translateY(100%);
+  transition:opacity 0.3s ease,transform 0.36s cubic-bezier(0.22,1,0.36,1);
+}
+.opt-b:hover .overlay{opacity:1;transform:translateY(0)}
+.opt-b:hover img{transform:scale(1.04)}
+
+/* ── OPTION C: Full dim overlay, centered ── */
+.opt-c .overlay{
+  position:absolute;inset:0;
+  display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-end;
+  padding:22px;
+  background:rgba(0,0,0,0.72);
+  opacity:0;
+  transition:opacity 0.3s ease;
+}
+.opt-c:hover .overlay{opacity:1}
+.opt-c:hover img{transform:scale(1.06)}
+
+/* ── OPTION D: Side reveal — info panel slides in from left ── */
+.opt-d .overlay{
+  position:absolute;top:0;left:0;bottom:0;
+  width:62%;
+  padding:22px 20px;
+  background:rgba(10,10,10,0.9);
+  border-right:2px solid var(--red);
+  display:flex;flex-direction:column;justify-content:flex-end;
+  opacity:0;transform:translateX(-100%);
+  transition:opacity 0.3s ease,transform 0.38s cubic-bezier(0.22,1,0.36,1);
+}
+.opt-d:hover .overlay{opacity:1;transform:translateX(0)}
+
+/* badge for current */
+.badge{
+  display:inline-block;
+  font-family:var(--mono);font-size:8px;letter-spacing:0.12em;text-transform:uppercase;
+  background:var(--red);color:#fff;padding:2px 7px;margin-left:8px;vertical-align:middle;
+}
+</style>
+</head>
+<body>
+
+<h1>Portfolio — Hover Treatments</h1>
+<div class="page-title">Four options. Hover each card to compare.</div>
+
+<div class="options">
+
+  <!-- A: Current -->
+  <div class="option">
+    <div class="card opt-a">
+      <img src="images/lux-in-her-name/thumb.gif" alt="LUX">
+      <div class="overlay">
+        <div class="c-top"><span class="c-brand">LUX</span><span class="c-award">Cannes 2024 · Epica Gold</span></div>
+        <div class="c-title">In Her Name</div>
+        <div class="c-desc">A social campaign shortlisted at Cannes Lions 2024 and awarded across Epica, Gong, LIA, Spikes Asia and The One Show.</div>
+        <div class="c-tags">
+          <span class="c-tag">Social</span><span class="c-tag">Influencer</span><span class="c-tag">Culture</span><span class="c-tag">Integrated</span>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="option-name">A — Gradient slide-up <span class="badge">Current</span></div>
+      <div class="option-label"><em>—</em> Dark gradient from bottom, content rises in</div>
+      <div class="option-desc">The existing treatment. Feels editorial and portfolio-standard. Gradient preserves image visibility at the top while anchoring text at the bottom.</div>
+    </div>
+  </div>
+
+  <!-- B: Frosted glass -->
+  <div class="option">
+    <div class="card opt-b">
+      <img src="images/hsbc-mind-athletes/thumb.gif" alt="HSBC">
+      <div class="overlay">
+        <div class="c-top"><span class="c-brand">HSBC</span><span class="c-award">5× MEA Gold 2025</span></div>
+        <div class="c-title">Mind Athletes Tournament</div>
+        <div class="c-desc">A first-of-its-kind golf experience championing inclusivity in sport.</div>
+        <div class="c-tags">
+          <span class="c-tag">Experiential</span><span class="c-tag">Integrated</span><span class="c-tag">Sports</span><span class="c-tag">CSR</span>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="option-name">B — Frosted glass panel</div>
+      <div class="option-label"><em>—</em> Backdrop blur strip rises from the bottom</div>
+      <div class="option-desc">More modern and distinct. The blur lets the image read through the panel, creating depth. Feels high-end but can look blurry on older browsers.</div>
+    </div>
+  </div>
+
+  <!-- C: Full dim -->
+  <div class="option">
+    <div class="card opt-c">
+      <img src="images/mha-home-of-the-unexpected/thumb.webp" alt="MHA">
+      <div class="overlay">
+        <div class="c-top"><span class="c-brand">Ministry of Home Affairs</span></div>
+        <div class="c-title">Home of the Unexpected</div>
+        <div class="c-desc">From pitch to campaign, built on a single provocation: the Ministry of Home Affairs isn't what you think it is.</div>
+        <div class="c-tags">
+          <span class="c-tag">Pitch Lead</span><span class="c-tag">Government</span><span class="c-tag">Integrated</span>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="option-name">C — Full dim</div>
+      <div class="option-label"><em>—</em> Whole card dims, text anchored to bottom</div>
+      <div class="option-desc">The simplest treatment. No gradient, no slide — just a clean fade over the entire image. Works well when thumbnails have strong subject matter you still want readable.</div>
+    </div>
+  </div>
+
+  <!-- D: Side panel -->
+  <div class="option">
+    <div class="card opt-d">
+      <img src="images/mercedes-amg-a-class/thumb.webp" alt="Mercedes-AMG">
+      <div class="overlay">
+        <div class="c-top"><span class="c-brand">Mercedes-AMG</span></div>
+        <div class="c-title">A Class Hatchback</div>
+        <div class="c-desc">Positioning the most powerful A-Class ever made to drivers who refuse to compromise.</div>
+        <div class="c-tags">
+          <span class="c-tag">Auto</span><span class="c-tag">Launch</span><span class="c-tag">Digital</span><span class="c-tag">Brand</span>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="option-name">D — Side panel reveal</div>
+      <div class="option-label"><em>—</em> Info slides in from the left, image stays visible</div>
+      <div class="option-desc">The most editorial and unusual option. Image remains fully visible on the right. The red border creates a strong vertical accent. Works best on landscape thumbnails.</div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
