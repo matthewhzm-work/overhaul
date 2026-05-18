@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Matthew Ho — Senior Creative</title>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&family=Inter:wght@300;400;500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --paper:#F5F4EF;
+  --ink:#0A0A0A;
+  --red:#E8200C;
+  --mid:#777;
+  --light:#E2E1DC;
+  --white:#FFFFFF;
+  --nav-h:68px;
+  --pad:60px;
+  --card-gap:8px;
+  --display:'Lexend',sans-serif;
+  --body:'Inter',sans-serif;
+  --mono:'IBM Plex Mono',monospace;
+}
+html{scroll-behavior:smooth}
+body{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+
+/* ── NAV ── */
+nav{
+  position:fixed;top:0;left:0;right:0;
+  height:var(--nav-h);
+  display:flex;align-items:center;
+  padding:0 var(--pad);
+  background:var(--paper);
+  z-index:200;
+  gap:28px;
+  transition:background 0.3s;
+}
+nav.scrolled{
+  background:rgba(245,244,239,0.96);
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+}
+.nav-name{
+  font-family:var(--display);font-size:22px;font-weight:700;
+  letter-spacing:0.01em;text-decoration:none;color:var(--ink);
+  white-space:nowrap;flex-shrink:0;
+}
+.nav-name em{color:var(--red);font-style:normal}
+
+/* centre meta: title+tagline one colour, award strip another */
+.nav-meta{
+  flex:1;min-width:0;
+  display:flex;align-items:center;gap:0;
+  white-space:nowrap;overflow:hidden;
+}
+.nav-meta-main{
+  font-family:var(--display);font-size:14px;letter-spacing:0.01em;
+  color:#333;font-weight:400;
+  flex-shrink:1;overflow:hidden;text-overflow:ellipsis;
+  white-space:nowrap;
+}
+.nav-meta-sep{
+  font-family:var(--display);font-size:14px;color:#bbb;
+  padding:0 10px;flex-shrink:0;
+}
+.nav-meta-awards{
+  font-family:var(--display);font-size:14px;letter-spacing:0.01em;
+  color:var(--red);font-weight:400;
+  flex-shrink:0;white-space:nowrap;
+}
+
+.nav-links{display:flex;gap:28px;list-style:none;flex-shrink:0}
+.nav-links a{
+  font-family:var(--mono);font-size:13px;letter-spacing:0.08em;
+  text-transform:uppercase;color:var(--ink);
+  text-decoration:underline;text-underline-offset:4px;
+  text-decoration-thickness:1px;text-decoration-color:rgba(10,10,10,0.3);
+  transition:color 0.18s;
+}
+.nav-links a:hover{color:var(--red)}
+
+/* ── WORK ── */
+#work{
+  padding-top:calc(var(--nav-h) + 52px);
+  padding-bottom:120px;
+}
+.home-divider{margin:0 var(--pad) 36px;height:1px;background:var(--light)}
+.sec-eyebrow{
+  font-family:var(--mono);font-size:10px;letter-spacing:0.2em;
+  text-transform:uppercase;color:var(--mid);
+  padding:0 var(--pad);margin-bottom:28px;
+}
+.sec-eyebrow em{color:var(--red);font-style:normal;margin-right:10px}
+
+/* ── GRID: 3 independent flex columns, round-robin fill (left→right ordering)
+   Each column packs cards with a consistent gap — no variable row gaps ── */
+.project-grid{
+  padding:0 var(--pad);
+  display:flex;
+  gap:var(--card-gap);
+  align-items:flex-start;
+}
+.project-col{
+  flex:1;
+  min-width:0;
+  display:flex;
+  flex-direction:column;
+  gap:var(--card-gap);
+}
+
+/* ── CARD ──
+   KEY FIX: overflow:hidden removed from card — it was clipping the lift.
+   overflow:hidden stays on .card-thumb only so images are cropped correctly. */
+.project-card{
+  text-decoration:none;color:inherit;
+  display:flex;flex-direction:column;
+  background:var(--white);
+  position:relative;
+  transition:transform 0.4s cubic-bezier(0.22,1,0.36,1);
+  will-change:transform;
+}
+.project-card:hover{transform:translateY(-8px)}
+
+.card-thumb{
+  width:100%;overflow:hidden;background:#111;
+  flex-shrink:0;position:relative;
+}
+.card-thumb img{width:100%;height:auto;display:block}
+/* Red overlay covers entire card on hover */
+.project-card::after{
+  content:'';position:absolute;inset:0;
+  background:var(--red);opacity:0;
+  transition:opacity 0.4s ease;pointer-events:none;
+  z-index:1;
+}
+.project-card:hover::after{opacity:0.28}
+.card-ph{
+  width:100%;aspect-ratio:16/9;
+  display:flex;align-items:center;justify-content:center;
+}
+.card-ph-label{
+  font-family:var(--display);font-weight:700;
+  font-size:clamp(14px,2.5vw,40px);
+  color:rgba(255,255,255,0.07);
+}
+
+.card-body{padding:20px 22px 26px}
+.card-top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:9px}
+.card-brand{
+  font-family:var(--display);font-size:13px;letter-spacing:0.12em;
+  text-transform:uppercase;color:var(--red);font-weight:600;
+}
+.card-award{
+  font-family:var(--mono);font-size:9px;letter-spacing:0.06em;text-transform:uppercase;
+  background:var(--ink);color:var(--paper);padding:3px 8px;flex-shrink:0;white-space:nowrap;
+}
+.card-title{
+  font-family:var(--display);font-size:clamp(15px,1.4vw,19px);
+  font-weight:600;line-height:1.25;letter-spacing:-0.01em;
+  margin-bottom:9px;color:var(--ink);
+}
+.card-desc{font-size:13px;font-weight:400;color:#555;line-height:1.6;margin-bottom:14px}
+/* Quill wraps content in <p> tags whose default browser margins collapse
+   through .card-desc, pulling description text into the title above or
+   pushing it into the tags below. Zero them out so layout is predictable. */
+.card-desc p{margin:0 0 0.4em}
+.card-desc p:last-child{margin-bottom:0}
+.card-tags{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:16px}
+.tag{
+  font-family:var(--mono);font-size:9px;letter-spacing:0.08em;text-transform:uppercase;
+  border:1px solid var(--light);color:#555;padding:3px 9px;
+}
+.card-cta{
+  display:inline-flex;align-items:center;gap:6px;
+  font-family:var(--mono);font-size:10px;letter-spacing:0.12em;
+  text-transform:uppercase;color:#aaa;transition:color 0.22s;
+}
+.project-card:hover .card-cta{color:var(--red)}
+.cta-arr{display:inline-block;transition:transform 0.22s cubic-bezier(0.22,1,0.36,1)}
+.project-card:hover .cta-arr{transform:translateX(5px)}
+
+/* ── ABOUT ── */
+#about{padding:120px var(--pad);background:var(--ink);color:var(--paper)}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:96px;align-items:start}
+.about-eyebrow{
+  font-family:var(--mono);font-size:10px;letter-spacing:0.2em;
+  text-transform:uppercase;color:var(--red);margin-bottom:32px;
+}
+.about-headline{
+  font-family:var(--display);font-size:clamp(28px,3.5vw,46px);
+  font-weight:600;line-height:1.1;letter-spacing:-0.02em;margin-bottom:30px;
+}
+.about-headline em{color:var(--red);font-style:normal;display:block}
+.about-body{
+  font-size:15px;font-weight:400;color:rgba(255,255,255,0.72);
+  line-height:1.85;margin-bottom:16px;
+}
+.about-body .rte p{margin-bottom:0.75em}
+.about-body .rte p:last-child{margin-bottom:0}
+.about-body .rte h2{font-family:var(--display);font-size:1.3em;font-weight:700;color:rgba(255,255,255,0.9);margin:0.7em 0 0.3em;line-height:1.15}
+.about-body .rte h3{font-family:var(--display);font-size:1.1em;font-weight:600;color:rgba(255,255,255,0.85);margin:0.5em 0 0.2em}
+.about-body .rte strong,.about-body .rte b{font-weight:700}
+.about-body .rte em,.about-body .rte i{font-style:italic}
+.about-body .rte u{text-decoration:underline}
+.about-body .rte ul,.about-body .rte ol{padding-left:1.4em;margin-bottom:0.6em;color:rgba(255,255,255,0.72)}
+.about-body .rte ul{list-style:disc}
+.about-body .rte ol{list-style:decimal}
+.about-body .rte li{margin-bottom:0.2em}
+.about-body .rte .ql-size-small{font-size:0.875em}
+.about-body .rte .ql-size-large{font-size:1.25em}
+.about-body .rte .ql-size-huge{font-size:1.65em}
+.contact-block{margin-top:44px}
+.contact-row{
+  display:flex;align-items:baseline;gap:22px;
+  padding:12px 0;border-bottom:1px solid rgba(255,255,255,0.07);
+}
+.contact-row:first-child{border-top:1px solid rgba(255,255,255,0.07)}
+.contact-key{
+  font-family:var(--mono);font-size:10px;letter-spacing:0.1em;text-transform:uppercase;
+  color:rgba(255,255,255,0.42);min-width:64px;flex-shrink:0;
+}
+.contact-val{
+  font-family:var(--mono);font-size:11px;color:var(--red);
+  text-decoration:none;transition:opacity 0.2s;
+}
+.contact-val:hover{opacity:0.65}
+.exp-eyebrow{
+  font-family:var(--mono);font-size:10px;letter-spacing:0.2em;
+  text-transform:uppercase;color:var(--red);margin-bottom:32px;
+}
+.exp-item{padding:20px 0;border-bottom:1px solid rgba(255,255,255,0.06)}
+.exp-item:last-child{border-bottom:none}
+.exp-top{display:flex;justify-content:space-between;align-items:baseline;gap:16px;margin-bottom:4px}
+.exp-co{font-family:var(--display);font-size:16px;font-weight:600;letter-spacing:-0.01em}
+.exp-period{font-family:var(--mono);font-size:10px;color:var(--red);letter-spacing:0.04em;white-space:nowrap;flex-shrink:0}
+.exp-role{font-size:13px;font-weight:400;color:rgba(255,255,255,0.6);line-height:1.5;margin-bottom:3px}
+.exp-clients{font-size:12px;font-weight:400;color:rgba(255,255,255,0.35);line-height:1.5}
+
+/* ── RECOGNITION ── */
+#awards{padding:120px var(--pad)}
+.awards-header{margin-bottom:52px}
+.awards-eyebrow{
+  font-family:var(--mono);font-size:10px;letter-spacing:0.2em;
+  text-transform:uppercase;color:var(--mid);
+  display:flex;align-items:center;gap:10px;
+}
+.awards-eyebrow em{color:var(--red);font-style:normal}
+.awards-cols{display:grid;grid-template-columns:1fr 1fr;gap:0 64px;align-items:start}
+.year-group{margin-bottom:44px}
+.year-group:last-child{margin-bottom:0}
+.year-label{
+  font-family:var(--mono);font-size:10px;letter-spacing:0.18em;
+  text-transform:uppercase;color:var(--red);margin-bottom:10px;
+}
+.award-row{
+  display:grid;grid-template-columns:90px 1fr auto;
+  gap:12px;align-items:baseline;
+  padding:9px 0;border-bottom:1px solid var(--light);font-size:13px;
+}
+.award-row:first-of-type{border-top:1px solid var(--light)}
+.award-tier{font-family:var(--mono);font-size:10px;letter-spacing:0.05em}
+/* BRIGHTER tier colours */
+.t-Gold  {color:#C47F00;font-weight:700}
+.t-Silver{color:#555555;font-weight:600}
+.t-Bronze{color:#A0460A;font-weight:700}
+.t-other {color:#444444;font-weight:500}
+.award-info strong{font-weight:600;font-size:13px;color:var(--ink)}
+.award-info-sub{font-size:11px;color:#777;margin-left:4px}
+.award-brand{
+  font-family:var(--mono);font-size:9px;letter-spacing:0.1em;text-transform:uppercase;
+  color:var(--red);text-align:right;white-space:nowrap;
+}
+
+/* ── FOOTER ── */
+footer{
+  background:var(--ink);border-top:1px solid rgba(255,255,255,0.06);
+  padding:24px var(--pad);
+  display:flex;align-items:center;justify-content:space-between;gap:16px;
+  font-family:var(--mono);font-size:13px;letter-spacing:0.04em;
+  color:rgba(255,255,255,0.6);
+}
+.footer-linkedin{color:rgba(255,255,255,0.55);transition:color 0.2s;flex-shrink:0;display:flex;align-items:center}
+.footer-linkedin:hover{color:var(--red)}
+.footer-email{color:rgba(255,255,255,0.6);text-decoration:none;transition:color 0.2s}
+.footer-email:hover{color:rgba(255,255,255,0.9)}
+
+/* ── REVEAL ── */
+.reveal{opacity:0;transform:translateY(20px);transition:opacity 0.65s ease,transform 0.65s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+/* Card lift — needs higher specificity than .reveal.visible (0,2,0) to win */
+.project-card.visible:hover{transform:translateY(-8px);transition:transform 0.4s cubic-bezier(0.22,1,0.36,1)}
+
+/* ── RESPONSIVE ── */
+@media(max-width:900px){
+  :root{--pad:24px;--nav-h:auto}
+  nav{flex-wrap:wrap;padding:14px var(--pad) 0;gap:0;height:auto}
+  .nav-name{flex:1;padding-bottom:12px}
+  .nav-links{padding-bottom:12px}
+  .nav-meta{
+    flex:0 0 100%;order:3;
+    padding:8px 0 12px;border-top:1px solid rgba(10,10,10,0.08);
+    overflow:hidden;
+  }
+  .nav-meta-awards{display:none}
+  .nav-meta-sep{display:none}
+  #work{padding-top:calc(132px + 36px)}
+  /* Collapse to 2-col grid; project-col becomes invisible so cards flow into grid */
+  .project-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:var(--card-gap)}
+  .project-col{display:contents}
+  .about-grid{grid-template-columns:1fr;gap:64px}
+  #about,#awards{padding:80px var(--pad)}
+  .awards-cols{grid-template-columns:1fr}
+  .year-group{grid-column:auto!important}
+  .award-row{grid-template-columns:80px 1fr}
+  .award-brand{display:none}
+  footer{flex-direction:column;gap:10px;text-align:center;align-items:center}
+}
+@media(max-width:600px){
+  .project-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<nav id="main-nav">
+  <a href="#work" class="nav-name">Matthew Ho <em>—</em></a>
+  <div class="nav-meta">
+    <span class="nav-meta-main" id="nav-main"></span>
+    <span class="nav-meta-sep">·</span>
+    <span class="nav-meta-awards" id="nav-awards"></span>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#work">Work</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#awards">Recognition</a></li>
+  </ul>
+</nav>
+
+<section id="work">
+  <div class="home-divider"></div>
+  <p class="sec-eyebrow"><em>01</em>Selected Work</p>
+  <div class="project-grid" id="project-grid"></div>
+</section>
+
+<section id="about">
+  <div class="about-grid">
+    <div class="reveal">
+      <p class="about-eyebrow">02 — About</p>
+      <h2 class="about-headline" id="about-headline"></h2>
+      <div id="about-bio"></div>
+      <div class="contact-block" id="contact-block"></div>
+    </div>
+    <div class="reveal" style="transition-delay:0.12s">
+      <p class="exp-eyebrow">Experience</p>
+      <div id="exp-list"></div>
+    </div>
+  </div>
+</section>
+
+<section id="awards">
+  <div class="awards-header reveal">
+    <p class="awards-eyebrow"><em>03</em> Recognition</p>
+  </div>
+  <div class="awards-cols" id="awards-cols"></div>
+</section>
+
+<footer>
+  <a id="footer-li" href="#" target="_blank" rel="noopener" class="footer-linkedin" aria-label="LinkedIn">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+  </a>
+  <a id="footer-mid" class="footer-email"></a>
+  <span id="footer-year"></span>
+</footer>
+
+<script src="data.js"></script>
+<script>
+(function(){
+  const D = PORTFOLIO_DATA;
+  const $ = id => document.getElementById(id);
+  const esc = s => String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  function renderHtml(s){if(!s)return'';if(!/</.test(s))return'<p>'+String(s).replace(/\n\n+/g,'</p><p>').replace(/\n/g,'<br>')+'</p>';return String(s);}
+
+  $('nav-main').textContent   = D.tagline;
+  $('nav-awards').textContent = D.awardStrip;
+  const fm = $('footer-mid');
+  fm.href = 'mailto:' + D.email;
+  fm.textContent = D.email;
+  $('footer-year').textContent = '© ' + new Date().getFullYear();
+  const fli = $('footer-li'); if(fli && D.linkedin) fli.href = D.linkedin;
+
+  /* Bio headline — from data.js */
+  const ah = $('about-headline');
+  if(ah) ah.innerHTML = esc(D.bioHeadline||'') + '<br><em>' + esc(D.bioHeadlineAccent||'') + '</em>';
+
+  window.addEventListener('scroll', () => {
+    $('main-nav').classList.toggle('scrolled', window.scrollY > 20);
+  }, {passive:true});
+
+  D.bio.forEach(p => {
+    const el = document.createElement('div');
+    el.className = 'about-body';
+    const inner = document.createElement('div');
+    inner.className = 'rte';
+    inner.innerHTML = renderHtml(p);
+    el.appendChild(inner);
+    $('about-bio').appendChild(el);
+  });
+
+  const cb = $('contact-block');
+  [
+    {key:'Email',    href:'mailto:'+D.email, val:D.email},
+    {key:'LinkedIn', href:D.linkedin||'#', val:'linkedin.com/in/matthew-ho', blank:true}
+  ].forEach(c => {
+    const row = document.createElement('div');
+    row.className = 'contact-row';
+    row.innerHTML = `<span class="contact-key">${c.key}</span><a class="contact-val" href="${c.href}"${c.blank?' target="_blank" rel="noopener"':''}>${c.val}</a>`;
+    cb.appendChild(row);
+  });
+
+  D.experience.forEach(e => {
+    const item = document.createElement('div');
+    item.className = 'exp-item';
+    item.innerHTML = `<div class="exp-top"><span class="exp-co">${esc(e.company)}</span><span class="exp-period">${esc(e.period)}</span></div><div class="exp-role">${esc(e.role)}</div><div class="exp-clients">${esc(e.clients)}</div>`;
+    $('exp-list').appendChild(item);
+  });
+
+  /* ── GRID: 3 independent flex columns, round-robin distribution ── */
+  const grid = $('project-grid');
+
+  // Create the three column containers
+  const colEls = [0,1,2].map(() => {
+    const col = document.createElement('div');
+    col.className = 'project-col';
+    grid.appendChild(col);
+    return col;
+  });
+
+  // Only show active projects on homepage; CMS order = left→right, top→bottom
+  D.projects.filter(p => p.active !== false).forEach((p, i) => {
+    const hasImg = p.thumbnailUrl && p.thumbnailUrl.trim();
+    const isGif  = hasImg && (p.thumbnailType==='gif'||p.thumbnailUrl.toLowerCase().endsWith('.gif'));
+    const thumb  = hasImg
+      ? `<img src="${p.thumbnailUrl}" alt="${p.title}"${isGif?'':' loading="lazy"'}>`
+      : `<div class="card-ph" style="background:${p.placeholderColor||'#111'}"><span class="card-ph-label">${p.brand}</span></div>`;
+
+    const card = document.createElement('a');
+    card.className = 'project-card reveal';
+    card.href = `work.html?id=${p.id}`;
+    card.style.transitionDelay = `${(i%4)*0.06}s`;
+    card.style.order = String(i); // preserves L→R sequence when cols collapse at breakpoints
+    card.innerHTML = `<div class="card-thumb">${thumb}</div><div class="card-body"><div class="card-top"><span class="card-brand">${esc(p.brand)}</span>${p.award?`<span class="card-award">${esc(p.award)}</span>`:''}</div><div class="card-title">${esc(p.title)}</div><div class="card-desc">${renderHtml(p.description)}</div><div class="card-tags">${(p.tags||[]).map(t=>`<span class="tag">${esc(t)}</span>`).join('')}</div><div class="card-cta">View project <span class="cta-arr">→</span></div></div>`;
+
+    colEls[i % 3].appendChild(card);
+  });
+
+  /* ── RECOGNITION: balance by row count ── */
+  const byYear = {};
+  D.awards.forEach(a => { (byYear[a.year]||(byYear[a.year]=[])).push(a); });
+  const years = Object.keys(byYear).sort((a,b)=>b-a);
+  const tc = t => ['Gold','Silver','Bronze'].includes(t)?'t-'+t:'t-other';
+
+  /* Balance years across 2 columns by row count */
+  const colAssign = {};
+  let [rL,rR] = [0,0];
+  years.forEach(yr => {
+    const n = byYear[yr].length + 1;
+    if (rL <= rR) { colAssign[yr] = 1; rL+=n; }
+    else          { colAssign[yr] = 2; rR+=n; }
+  });
+
+  /* Render each year-group as a direct child in chronological (DOM) order.
+     grid-column places them into the correct desktop column.
+     On mobile the CSS overrides grid-column to auto so they flow chronologically. */
+  const ac = $('awards-cols');
+  years.forEach(yr => {
+    const g = document.createElement('div');
+    g.className = 'year-group reveal';
+    g.style.gridColumn = colAssign[yr];
+    g.innerHTML = `<div class="year-label">${yr}</div>`
+      + byYear[yr].map(a =>
+        `<div class="award-row"><span class="award-tier ${tc(a.tier)}">${a.tier}</span><span class="award-info"><strong>${a.show}</strong><span class="award-info-sub">— ${a.category}</span></span>${a.brand?`<span class="award-brand">${a.brand}</span>`:'<span></span>'}</div>`
+      ).join('');
+    ac.appendChild(g);
+  });
+
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);} });
+  },{threshold:0.06});
+  document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+})();
+</script>
+</body>
+</html>
