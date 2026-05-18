@@ -115,10 +115,11 @@ nav.scrolled{
   background:#111;
   position:relative;
   overflow:hidden;
+  border-radius:6px;
   transition:transform 0.4s cubic-bezier(0.22,1,0.36,1);
   will-change:transform;
 }
-.project-card:hover{transform:translateY(-8px)}
+.project-card:hover{transform:translateY(-8px) rotate(-0.6deg)}
 
 .card-thumb{width:100%;position:relative}
 .card-thumb img{width:100%;height:auto;display:block}
@@ -277,7 +278,7 @@ footer{
 /* ── REVEAL ── */
 .reveal{opacity:0;transform:translateY(20px);transition:opacity 0.65s ease,transform 0.65s ease}
 .reveal.visible{opacity:1;transform:translateY(0)}
-.project-card.visible:hover{transform:translateY(-8px);transition:transform 0.4s cubic-bezier(0.22,1,0.36,1)}
+.project-card.visible:hover{transform:translateY(-8px) rotate(-0.6deg);transition:transform 0.4s cubic-bezier(0.22,1,0.36,1)}
 
 /* ── RESPONSIVE ── */
 @media(max-width:900px){
